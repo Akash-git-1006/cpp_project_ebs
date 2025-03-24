@@ -1,0 +1,211 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+    <div class="form-container">
+        <h2>Post Your Ad</h2>
+        <!-- Add the action attribute to the form -->
+        <form method="post" enctype="multipart/form-data" action="{% url 'post_ad' %}">
+            {% csrf_token %}
+            
+            <!-- Ad Title -->
+            <div class="form-group">
+                <label for="id_product_title">Ad Title *</label>
+                {{ form.product_title }}
+                {% if form.product_title.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.product_title.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+                <label for="id_category">Category *</label>
+                {{ form.category }}
+                {% if form.category.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.category.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label for="id_product_description">Description *</label>
+                {{ form.product_description }}
+                {% if form.product_description.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.product_description.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Price -->
+            <div class="form-group">
+                <label for="id_price">Set a Price *</label>
+                <input type="text" name="price" id="id_price" value="{{ form.price.value|default_if_none:'' }}">
+                {% if form.price.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.price.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Upload Photos -->
+            <div class="form-group">
+                <label>Upload Up to 2 Photos</label>
+                <div class="photo-upload">
+                    <label for="id_image1">Add Photo 1</label>
+                    {{ form.image1 }}
+                    {% if form.image1.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.image1.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+        
+                    <label for="id_image2">Add Photo 2</label>
+                    {{ form.image2 }}
+                    {% if form.image2.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.image2.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+           <!-- location -->
+            <div class="form-group">
+                <label for="id_location">Location *</label>
+                <input type="text" name="location" id="id_location" value="{{ form.location.value|default_if_none:'' }}" placeholder="Enter a Eircode">
+                {% if form.location.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.location.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Seller Phone -->
+            <div class="form-group">
+                <label for="id_seller_phone">Phone Number *</label>
+                {{ form.seller_phone }}
+                {% if form.seller_phone.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.seller_phone.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Post Button -->
+            <div class="post-button">
+                <button type="submit">Post Ad</button>
+            </div>
+        </form>
+    </div>
+
+    <style>
+        /* Custom Styles for Post Ad Page */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .photo-upload {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .photo-upload input[type="file"] {
+            display: none;
+        }
+
+        .photo-upload label {
+            padding: 10px;
+            background-color: #28a745;
+            color: #ffffff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .photo-upload label:hover {
+            background-color: #218838;
+        }
+
+        .post-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .post-button button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .post-button button:hover {
+            background-color: #218838;
+        }
+
+        /* Error Message Styling */
+        .errorlist {
+            color: #dc3545; /* Red color for errors */
+            margin-top: 5px;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .errorlist li {
+            font-size: 0.9rem;
+        }
+    </style>
+{% endblock %}

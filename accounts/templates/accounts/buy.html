@@ -1,0 +1,182 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+    <div class="main-content">
+        <div class="container">
+            <h1 class="welcome-message">Buy - Find What You Need</h1>
+
+            <!-- Search Bar -->
+            <form method="GET" action="{% url 'buy' %}">
+                <div class="search-bar">
+                    <input type="text" name="search" placeholder="Search by keyword" value="{{ search_query }}">
+                </div>
+                <div class="filters">
+                    <select name="category">
+                        <option value="">Category</option>
+                        {% for category in categories %}
+                        <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="location">
+                        <option value="">Location</option>
+                        {% for location in locations %}
+                        <option value="{{ location }}" {% if location == selected_location %}selected{% endif %}>{{ location }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="min_price" placeholder="Min Price" value="{{ min_price }}">
+                    <input type="number" name="max_price" placeholder="Max Price" value="{{ max_price }}">
+                </div>
+                <div class="search-button">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+
+            <!-- Divider Line -->
+            <div class="divider"></div>
+
+            {% if search_query or selected_category or selected_location or min_price or max_price %}
+                {% if results %}
+                    <div class="search-results">
+                        <h2>{{ results|length }} search results</h2>
+                        <div class="result-grid">
+                            {% for result in results %}
+                            <a href="{% url 'item_details' result.product_id %}" style="text-decoration: none; color: inherit;">
+                                <div class="result-item">
+                                    <img src="{{ result.image1.url }}" alt="{{ result.product_title }}">
+                                    <p>Product : {{ result.product_title }}</p>
+                                    <p>Price : € {{ result.price}}</p>
+                                    <p>Location : {{ result.location }}</p>  <!-- Display full location -->
+                                    <p>Posted on : {{ result.date_posted }}</p>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <p>No items found matching your search criteria.</p>
+                {% endif %}
+            {% else %}
+                <p>Use the filters above to find what you're looking for.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        /* Custom Styles for Buy Page */
+        .main-content {
+            padding: 40px 20px;
+            margin-top: 80px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filters select, .filters input {
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 200px;
+        }
+
+        /* Search Button */
+        .search-button {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-button button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .search-button button:hover {
+            background-color: #218838;
+        }
+
+        /* Divider Line */
+        .divider {
+            border-bottom: 1px solid #e9ecef;
+            margin: 20px 0;
+        }
+
+        /* Search Results */
+        .search-results {
+            margin-top: 20px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .result-item {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            max-width: 500px;
+        }
+
+        .result-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .result-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .result-item h3 {
+            font-size: 1.25rem;
+            color: #343a40;
+            margin-bottom: 10px;
+        }
+
+        .result-item .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .result-item .location {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .result-item .date {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+{% endblock %}

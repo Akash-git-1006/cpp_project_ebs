@@ -1,0 +1,161 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <h1 class="welcome-message">Welcome, {{ user.username }}!</h1>
+            <!-- <p class="dashboard-text">This is your dashboard after logging in.</p> -->
+
+            <!-- Buy and Sell Options -->
+            <div class="dashboard-options">
+                <!-- Buy Option -->
+                <a href="{% url 'buy' %}" class="option-link">
+                    <h3>Buy</h3>
+                    <p>Explore and purchase items.</p>
+                </a>
+
+                <!-- Sell Option -->
+                <a href="{% url 'sell' %}" class="option-link">
+                    <h3>Sell</h3>
+                    <p>List your items for sale.</p>
+                </a>
+            </div>
+
+            <!-- Fresh Recommendations -->
+            <div class="fresh-recommendations">
+                <h2>Fresh Recommendations</h2>
+
+                <!-- Featured Section -->
+                <div class="featured-section">
+                    <h3>FEATURED</h3>
+
+                    <!-- Fetching Items from Database -->
+                    {% for item in featured_items %}
+                        <a href="{% url 'item_details' item.product_id %}" style="text-decoration: none; color: inherit;">
+                            <div class="featured-item">
+                                <!-- Display the image -->
+                                {% if item.image1 %}
+                                    <img src="{{ item.image1.url }}" alt="{{ item.product_title }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+                                {% else %}
+                                    <div style="width: 100px; height: 100px; background-color: #e9ecef; border-radius: 10px;"></div>
+                                {% endif %}
+
+                                <!-- Item details -->
+                                <div class="details">
+                                    <h4>{{ item.product_title }}</h4>
+                                    <p>{{ item.location }} · {{ item.date_posted|date:"M d, Y" }}</p>
+                                </div>
+
+                                <!-- Price -->
+                                <span class="price">€ {{ item.price }}</span>
+                            </div>
+                        </a>
+                    {% empty %}
+                        <p>No featured items available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Custom Styles for Dashboard */
+        .main-content {
+            padding: 40px 20px;
+            margin-top: 80px;
+        }
+
+        .dashboard-text {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .option-link {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #343a40;
+        }
+
+        /* .option-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            text-decoration: none;
+        } */
+
+        .fresh-recommendations {
+            margin-top: 40px;
+        }
+
+        .fresh-recommendations h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .featured-section {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .featured-section h3 {
+            font-size: 1.5rem;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .featured-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .featured-item:last-child {
+            border-bottom: none;
+        }
+
+        .featured-item .price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .featured-item .details {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .featured-item .details h4 {
+            font-size: 1.1rem;
+            color: #343a40;
+            margin-bottom: 5px;
+        }
+
+        .featured-item .details p {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+    </style>
+{% endblock %}

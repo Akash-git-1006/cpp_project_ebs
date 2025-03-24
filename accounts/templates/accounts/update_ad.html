@@ -1,0 +1,24 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<style>
+    .form-container {
+        margin-top: 50px; /* Add margin to push the form down */
+        padding: 20px; /* Optional: Add padding for better spacing */
+    }
+    .form-container h1 {
+        font-size: 1.5rem; /* Reduce the font size of the heading */
+    }
+</style>
+
+<div class="form-container">
+    <h1>Update Product Category</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button btn-success is-success is-fullwidth is-medium mt-5">
+            Update Product Category
+        </button>
+    </form>
+</div>
+{% endblock %}

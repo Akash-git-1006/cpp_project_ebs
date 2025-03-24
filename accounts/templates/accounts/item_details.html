@@ -1,0 +1,96 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <!-- Product Images Side by Side -->
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="product-image">
+                                <img src="{{ item.image1.url }}" alt="{{ item.product_title }}" class="img-fluid">
+                            </div>
+                        </div>
+                        {% if item.image2 %}
+                        <div class="col-md-6">
+                            <div class="product-image">
+                                <img src="{{ item.image2.url }}" alt="{{ item.product_title }}" class="img-fluid">
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Seller Details and Product Information -->
+                <div class="col-md-6 mt-4"> <!-- Added mt-4 to bring the content down -->
+                    <div class="seller-details">
+                        <h3>Seller Details</h3>
+                        <p><strong>Name:</strong> {{ item.seller.username }}</p>
+                        <p><strong>Phone number:</strong> {{ item.seller_phone }}</p>
+                        <p><strong>Email:</strong> {{ item.seller.email }}</p>
+                    </div>
+
+                    <!-- Product Information -->
+                    <div class="product-info mt-4">
+                        <h2>{{ item.product_title }}</h2>
+                        <p class="price">price: € {{ item.price }}</p>
+                        <p><strong>Description:</strong> {{ item.product_description }}</p>
+                        <p><strong>Location:</strong> {{ item.location }}</p>
+                        <p><strong>Posted on:</strong> {{ item.date_posted|date:"M d, Y" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Custom Styles for Item Details */
+        .main-content {
+            padding: 40px 20px;
+            margin-top: 80px;
+        }
+
+        .product-image img {
+            width: 100%;
+            border-radius: 10px;
+            object-fit: contain; /* Ensure the full image is visible */
+            margin-bottom: 10px; /* Add spacing between images */
+        }
+
+        .product-info h2 {
+            font-size: 2rem;
+            color: #343a40;
+        }
+
+        .product-info .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .product-info p {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .seller-details {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .seller-details h3 {
+            font-size: 1.5rem;
+            color: #343a40;
+        }
+
+        .seller-details p {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+    </style>
+{% endblock %}
