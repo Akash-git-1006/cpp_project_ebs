@@ -10,6 +10,19 @@
                 <div class="search-bar">
                     <input type="text" name="search" placeholder="Search by keyword" value="{{ search_query }}">
                 </div>
+
+                <div class="tag-suggestions-container">
+                    <p class="suggestion-label">Suggestions:</p>
+                    <div class="tags-wrapper">
+                      {% for tag in suggested_tags %}
+                        <span class="product-tag">{{ tag }}</span>
+                      {% empty %}
+                        <span class="no-tags-message">No common terms found</span>
+                      {% endfor %}
+                    </div>
+                  </div>
+
+            
                 <div class="filters">
                     <select name="category">
                         <option value="">Category</option>
@@ -178,5 +191,39 @@
             font-size: 0.9rem;
             color: #6c757d;
         }
+        .tag-suggestions-container {
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid #eee;
+}
+
+.suggestion-label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.tags-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Individual tags */
+.product-tag {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  background-color: #f3f4f6;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  color: #4b5563;
+  white-space: nowrap;
+}
+
+.no-tags-message {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  font-style: italic;
+}
     </style>
 {% endblock %}

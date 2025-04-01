@@ -12,7 +12,7 @@
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="{% static 'css/app.css' %}" />  <!-- Example of using static files -->
+    <link rel="stylesheet" href="{% static 'css/app.css' %}" />  
     <style>
       body, html {
         height: 100%;
@@ -24,7 +24,7 @@
       }
       .image-container {
         flex: 1;
-        background-image: url("{% static 'images/logo.jpg' %}");
+        background-image: url("{% static 'logo.jpg' %}");
         background-size: contain; /* Ensures the full image is visible */
         background-position: center;
         background-repeat: no-repeat;
@@ -52,7 +52,7 @@
         <div class="login-form">
           <h2 class="my-3 text-center">Welcome to Trade Hub, Used Appliances Buying and Selling Platform</h2>
 
-          <!-- Display error messages -->
+          <!-- To display error messages -->
           {% if form.errors %}
           <div class="alert alert-danger" role="alert">
             Invalid username or password. Please try again.

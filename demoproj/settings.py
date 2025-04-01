@@ -27,18 +27,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-!!&y@p1+ajs$*^*n3yijv2&m!k3u!yk&e@q52f6y0$a6!ga^4c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['x23377348cpp11-env.eba-sxb2vcmn.eu-west-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['*']
 
-# AWS_ACCESS_KEY_ID = None
-# AWS_SECRET_ACCESS_KEY = None
-# AWS_STORAGE_BUCKET_NAME = 'x23377348'
-# AWS_S3_REGION_NAME = 'us-east-1'
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# AWS_PROFILE_NAME = 'MSCCLOUD-250738637992'
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -93,10 +85,10 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # MySQL database engine                                  
-        'NAME': 'x23377348db',          # Database name you created in RDS
+        'NAME': 'x23377348cpp',          # Database created in RDS
         'USER': 'admin',      # Master username for RDS
-        'PASSWORD': 'Akash1066',  # Master password for RDS
-        'HOST': 'x23377348.c9gyk2q201l8.us-east-1.rds.amazonaws.com',           # RDS endpoint (e.g., tradehub-db.xxxxxx.us-east-1.rds.amazonaws.com)
+        'PASSWORD': 'Akash1006',  # Master password for RDS
+        'HOST': 'x23377348cpp.c9gyk2q201l8.us-east-1.rds.amazonaws.com',  # RDS endpoint
         'PORT': '3306',                        # Default MySQL port
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",  # Optional: Ensures strict SQL mode
@@ -142,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
@@ -150,7 +143,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'dashboard'
-LOGOUT_REDIRECT_URL = 'dashboard'# Ensure this matches the name of your dashboard URL
+LOGOUT_REDIRECT_URL = 'dashboard'
 
 MEDIA_URL = '/media/'  # URL prefix for media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Path to the media folder

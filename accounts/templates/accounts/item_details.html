@@ -5,7 +5,7 @@
     <div class="main-content">
         <div class="container">
             <div class="row">
-                <!-- Product Images Side by Side -->
+                <!-- Product Images  -->
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">
@@ -24,7 +24,7 @@
                 </div>
 
                 <!-- Seller Details and Product Information -->
-                <div class="col-md-6 mt-4"> <!-- Added mt-4 to bring the content down -->
+                <div class="col-md-6 mt-4"> <!-- Added mt-4 for bringing the content down -->
                     <div class="seller-details">
                         <h3>Seller Details</h3>
                         <p><strong>Name:</strong> {{ item.seller.username }}</p>
@@ -32,7 +32,7 @@
                         <p><strong>Email:</strong> {{ item.seller.email }}</p>
                     </div>
 
-                    <!-- Product Information -->
+                    <!-- Product details -->
                     <div class="product-info mt-4">
                         <h2>{{ item.product_title }}</h2>
                         <p class="price">price: € {{ item.price }}</p>

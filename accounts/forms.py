@@ -36,7 +36,7 @@ class AdForm(forms.ModelForm):
             MinValueValidator(0, message="Price must be a positive number.")
         )
 
-class CustomUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(UserCreationForm): 
     email = forms.EmailField(required=True, help_text='Required. Enter a valid email address.')
 
     class Meta:
@@ -55,10 +55,10 @@ class CustomUserCreationForm(UserCreationForm):
             raise ValidationError("This email address is already in use.")
         return email
     
-    def clean_password1(self):
+    def clean_password1(self):  
         password1 = self.cleaned_data.get('password1')
 
-        # Minimum length validation
+        # length validation
         if len(password1) < 8:
             raise ValidationError("Password must be at least 8 characters long.")
 

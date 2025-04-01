@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from .forms import AdForm,CustomUserCreationForm
 from .models import item
-
+from Product_Tag_generator import extract_title_tags
 
 
 def signup(request):
@@ -21,11 +21,11 @@ def signup(request):
     return render(request, 'accounts/signup.html', {'form': form})
 
 def home(request):
-    return render(request, 'accounts/index.html')  # Render the home page template
+    return render(request, 'accounts/index.html')  # for rendering homepage
 
 @login_required
 def dashboard(request):
-    # Fetch latest 5 items
+    # Fetch 5 items from model
     featured_items = item.objects.all()[:5]
 
     return render(request, 'accounts/dashboard.html', {'featured_items': featured_items})
@@ -42,7 +42,6 @@ def buy(request):
     # Predefined locations (D1 to D24)
     locations = [f'D{i}' for i in range(1, 25)]
 
-    # Start with all items
     items = item.objects.all()
 
     # Get filter and search parameters from the request
@@ -51,6 +50,7 @@ def buy(request):
     selected_location = request.GET.get('location', '')
     min_price = request.GET.get('min_price', '')
     max_price = request.GET.get('max_price', '')
+    tag_filter = request.GET.get('tag', '')
 
     # Apply filters to items
     if search_query:
@@ -67,14 +67,15 @@ def buy(request):
             # If it's already D10-D24, match locations that start with it
                items = items.filter(location__startswith=selected_location)
         else:
-        # Fallback for non-standard cases
+        #  Used for non-standard cases
           items = items.filter(location__startswith=selected_location)
     if min_price:
         items = items.filter(price__gte=float(min_price))
     if max_price:
         items = items.filter(price__lte=float(max_price))
 
-    # Pass data to the template
+    suggested_tags = extract_title_tags(items, max_words=15)
+
     context = {
         'app_name': 'Trade Hub',
         'categories': categories,
@@ -85,6 +86,8 @@ def buy(request):
         'selected_location': selected_location,
         'min_price': min_price,
         'max_price': max_price,
+        'suggested_tags': suggested_tags,
+        'selected_tag': tag_filter,
     }
     return render(request, 'accounts/buy.html', context)
 
@@ -100,49 +103,26 @@ def item_details(request, item_id):
     }
     return render(request, 'accounts/item_details.html', context)
 
-# @login_required
-# def post_ad(request):
-#     if request.method == 'POST':
-#         # Bind the form to the POST data and files
-#         form = AdForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             # Save the form data to the database
-#             ad = form.save(commit=False)
-#             # Assign the logged-in user as the seller
-#             ad.seller = request.user
-#             form.save()
-#             # Redirect to a success page or the homepage
-#             return redirect('dashboard')  # Replace 'dashboard' with your success URL name
-#         else:
-#             # If the form is invalid, re-render the form with errors
-#             print("Form errors:", form.errors)  # Debugging: Print form errors
-#     else:
-#         # If it's a GET request, create a new empty form
-#         form = AdForm()
-#     # Render the post_ad template with the form
-#     return render(request, 'accounts/post_ad.html', {'form': form})
 
 @login_required
-def post_ad(request):
+def post_ad(request):  #post form for seller
     if request.method == 'POST':
-        # Bind the form to the POST data and files
         form = AdForm(request.POST, request.FILES)
         if form.is_valid():
-            # Save the form data to the database
             ad = form.save(commit=False)
             # Assign the logged-in user as the seller
             ad.seller = request.user
-            ad.save()  # Save the ad to the database
-            return redirect('dashboard')  # Replace 'dashboard' with your success URL name
+            ad.save()  
+            return redirect('dashboard')  
         else:
-            print("Form errors:", form.errors)  # Debugging: Print form errors
+            print("Form errors:", form.errors) 
     else:
-        # If it's a GET request, create a new empty form
+        # If get request is received, new form is shown
         form = AdForm()
     return render(request, 'accounts/post_ad.html', {'form': form})
 
 @login_required
-def update_details(request,product_id):
+def update_details(request,product_id):  # For updating the posted ads
     ad1 = item.objects.get(product_id=product_id)
     if request.method == 'POST':
         form = AdForm(request.POST,request.FILES, instance = ad1)
@@ -154,16 +134,15 @@ def update_details(request,product_id):
         return render(request, 'accounts/update_ad.html', {'form': form})
     
 @login_required
-def delete_ad(request, product_id):
+def delete_ad(request, product_id):   # For deleting the posted ads
     ad1 = get_object_or_404(item, product_id=product_id)
     ad1.delete()
     return redirect('My_ads')    
 
 @login_required
-def My_ads(request):
+def My_ads(request):  # displays the ads posted
     # Fetch item details from the database
     update_item = item.objects.filter(seller_id = request.user)
-    # update_item = item.objects.all()
     # Context data for the details page
     context = { 
         'items' : update_item
