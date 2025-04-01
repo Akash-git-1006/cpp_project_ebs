@@ -92,11 +92,11 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',                                 
-        'NAME': 'database_2',          
-        'USER': 'admin',     
-        'PASSWORD': 'Akash1006', 
-        'HOST': 'database-2.chwlezgyi7rm.eu-west-1.rds.amazonaws.com',           # RDS endpoint (e.g., tradehub-db.xxxxxx.us-east-1.rds.amazonaws.com)
+        'ENGINE': 'django.db.backends.mysql',  # MySQL database engine                                  
+        'NAME': 'x23377348db',          # Database name you created in RDS
+        'USER': 'admin',      # Master username for RDS
+        'PASSWORD': 'Akash1066',  # Master password for RDS
+        'HOST': 'x23377348.c9gyk2q201l8.us-east-1.rds.amazonaws.com',           # RDS endpoint (e.g., tradehub-db.xxxxxx.us-east-1.rds.amazonaws.com)
         'PORT': '3306',                        # Default MySQL port
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",  # Optional: Ensures strict SQL mode
